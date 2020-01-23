@@ -10,8 +10,6 @@ function App() {
     <Router>
     <div>
     <Switch>
-      <Route path={`/currentgame`} component={Game}/>
-      <Route path={`/currentgame`} component={GameHistory}/>
       <Route path={`/`} component={UserRegestration}/>
     </Switch>
     </div>

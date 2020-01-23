@@ -3,10 +3,10 @@ import {getGameNumbers,getplayers} from './api/gameapi';
 class GameHistory extends React.Component{
     constructor(props){
         super(props);
-        console.log('history', props)
+        console.log('history',props)
         this.state = {
-            playerid: props.userid,
-            gameid: props.gameid,
+            playername: props.username,
+            gameid: this.props.gameid,
             users_games:[],
             games:[],
             player_name:"",
@@ -15,16 +15,19 @@ class GameHistory extends React.Component{
             choosinnumber:0,
             gusednumberingame:[]
         }
+        
     }
 
     componentDidMount(){
-        getplayers(this.state.playerid)
+        getplayers(this.state.playername)
         .then(users=>this.setState({users_games:users
-        },()=>console.log(this.state)))
-        getGameNumbers(this.state.gameid)
-        .then(games=>this.setState({
-            games:games
-        },()=>console.log(this.state)))
+        },()=>{console.log(this.state);
+            getGameNumbers(this.state.users_games[0]["gameid"])
+            .then(games=>this.setState({
+                games:games
+            },()=>console.log(this.state)))
+        }))
+       
     }
 
     render(){
