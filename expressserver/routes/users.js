@@ -1,12 +1,10 @@
 var express = require('express');
 var router = express.Router();
-const { getusers, sendUserData } = require('./api/userapi/userapi');
-const { sendData, getgamenumbers, sendgamenumbers } = require('./api/gameapi/gameapi');
+const { getUsers, sendUserData } = require('../api/userapi/userapi');
+const { sendData, getgamenumbers, sendgamenumbers } = require('../api/gameapi/gameapi');
 /* GET users listing. */
 router.get('/:userid', function(req, res, next) {
-    getusers(req.params.userid).then(users => {
-
-        console.log(req.cookies);
+    getUsers(req.params.userid).then(users => {
         res.status(200).json(users)
     })
 });
@@ -19,7 +17,6 @@ router.get('/currentgame/:gameid', function(req, res, next) {
 
 //post request
 router.post('/', function(req, res, next) {
-    res.cookie("player", { userid: users.id, gameid: users.gameid })
     console.log(req.body)
     sendUserData(req.body.name).then(() => {
         res.status(200).json({ msg: "data was sent sucssecfuly" })
@@ -27,7 +24,6 @@ router.post('/', function(req, res, next) {
 });
 
 router.post('/currentgame', function(req, res, next) {
-    console.log(req.body)
     sendData({
         userid: req.body.userid,
         minnumber: req.body.minnumber,
