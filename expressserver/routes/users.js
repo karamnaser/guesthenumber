@@ -3,9 +3,11 @@ var router = express.Router();
 const { getUsers, sendUserData } = require('../api/userapi/userapi');
 const { sendData, getgamenumbers, sendgamenumbers } = require('../api/gameapi/gameapi');
 /* GET users listing. */
-router.get('/:userid', function(req, res, next) {
-    getUsers(req.params.userid).then(users => {
-        res.status(200).json(users)
+router.get('/:username', function(req, res, next) {
+    console.log(req.param.username)
+    getUsers(req.params.username).then(user => {
+        console.log(user)
+        res.status(200).json(user)
     })
 });
 
