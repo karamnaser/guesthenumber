@@ -1,7 +1,9 @@
 import React from 'react';
 import {sendUserDetails} from '../api/gameapi'
+import { Link} from "react-router-dom";
 class UserRegestration extends  React.Component{
     constructor(props){
+        console.log(props)
         super(props);
         this.state = {
             name:""
@@ -17,7 +19,10 @@ class UserRegestration extends  React.Component{
         let target = document.getElementById("inpute");
         this.setState({
             name:target.value
-        },()=>{let response = sendUserDetails({name:this.state.name});alert(response.msg)})
+        },()=>{ sendUserDetails({name:this.state.name});
+               alert(`welcom to the game ${this.state.name} pls white you wil be redirect to game soon`);
+               setTimeout(()=>window.location.pathname=`/currentgame`,2000)
+               })
     }
 
     render(){
