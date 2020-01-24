@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import {sendgameDetails,sendgamenumbers} from '../api/gameapi' 
 import GameHistory from '../history'
+import {sendgameDetails,sendgamenumbers} from '../api/gameapi' 
 class Game extends  React.Component{
     constructor(props){
         super(props);
