@@ -1,8 +1,8 @@
 const connectore = require('../config');
 
-function getusers(userid) {
+function getUsers(userid) {
     return new Promise((resolve) => {
-        connectore.query("SELECT *,u.id as userid,g.id as gameid  FROM users u left join games g on u.id= g.userid where userid=? ", [userid], (err, result) => {
+        connectore.query("SELECT *,u.id as userid,g.id as gameid  FROM users u left join games g on u.id=g.userid where userid=? ", [userid], (err, result) => {
             resolve(result)
         })
     })
@@ -15,4 +15,4 @@ function sendUserData(username) {
         })
     })
 }
-module.exports = { getusers, sendUserData };
+module.exports = { getUsers, sendUserData };
