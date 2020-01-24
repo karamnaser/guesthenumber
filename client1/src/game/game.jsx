@@ -23,15 +23,7 @@ class Game extends  React.Component{
             max_number:parseInt(prompt(`pls inserts max number`)),
             userid:this.state.userid+1,
             gameid:this.state.gameid+1
-    },()=>{this.state.choosen_number=parseInt(prompt(`insert number between ${this.state.min_number} and ${this.state.max_number}`));
-    if(this.state.min_number>this.state.max_number){
-        alert("min number larger than max number choos again")
-        this.setState({
-            min_number:parseInt(prompt(`pls insert min number`)),
-            max_number:parseInt(prompt(`pls inserts max number`))
-        })
-    }
-})
+    },()=>this.guessTheNumber());
     }
 
     handleData({target:{name,value}}){
@@ -40,39 +32,30 @@ class Game extends  React.Component{
         },()=>console.log(this.state))
     }
     sendcurrentgamedetails(){
-        if(this.state.choosen_number == this.state.current_number){
             sendgamenumbers({gameid:this.state.gameid,number:this.state.current_number})
-            let response = sendgameDetails({userid:this.state.userid,
+             sendgameDetails({userid:this.state.userid,
                 minnumber:this.state.min_number,
                  maxnumber:this.state.max_number,
             choosennumber:this.state.choosen_number})
             alert("you got the currect number")
             this.resetgame();
-    }
-    else  if(this.state.choosen_number > this.state.current_number){
+}
+
+ guessTheNumber(){
+    let gussednumber=Math.floor((Math.random()*(this.state.max_number-this.state.min_number))+this.state.min_number)
+    this.state.current_number=parseInt(gussednumber)
+    sendgamenumbers({gameid:this.state.gameid,number:this.state.current_number})
+    while(!window.confirm(`is ${gussednumber} your number`)){
+        this.state.current_number=parseInt(gussednumber)
         sendgamenumbers({gameid:this.state.gameid,number:this.state.current_number})
-        alert(`number is samller than the choosen number pls insert number again`)
-        this.state.number_of_guess++
+        gussednumber=Math.floor((Math.random()*(this.state.max_number-this.state.min_number))+this.state.min_number)
     }
-    else  if(this.state.choosen_number < this.state.current_number){
-        sendgamenumbers({gameid:this.state.gameid,number:this.state.current_number})
-        alert(`number is greater than the choosen number pls insert number again`)
-        this.state.number_of_guess++
-    }
+    alert("congrates you found the number")
+    this.setState({
+        guessed_numbers:[...this.state.guessed_numbers,parseInt(gussednumber)],
+    },()=>this.sendcurrentgamedetails())
 }
  
-    getchoosennumber(e){
-        let target = document.getElementById("inpute");
-        this.state.current_number=parseInt(target.value)
-        if(this.state.current_number<this.state.min_number ||this.state.current_number>this.state.max_number ){
-            alert("number not valid")
-                return
-            
-        }
-        this.setState({
-            guessed_numbers:[...this.state.guessed_numbers,parseInt(target.value)],
-        },()=>this.sendcurrentgamedetails())
-    }
 
     resetgame(){
         if(window.confirm("do you want to start anew game")){
@@ -84,7 +67,7 @@ class Game extends  React.Component{
             number_of_guess:0,
             guessed_numbers:[],
             gameid:this.state.gameid+1,
-        },()=>this.state.choosen_number=parseInt(prompt(`insert number between ${this.state.min_number} and ${this.state.max_number}`)))
+        },()=>this.guessTheNumber())
     }
     else{
         this.setState({
@@ -103,12 +86,12 @@ class Game extends  React.Component{
                 
                 <h1>welcome to guess wich number game</h1>
                 <div style={{width:"60%",margin:"50px auto"}}>
-                <button className="mr-2" name="choosen_number" value={this.state.choosen_number} onClick={(e)=>{
+                {/* <button className="mr-2" name="choosen_number" value={this.state.choosen_number} onClick={(e)=>{
                    
                     this.getchoosennumber(e);
 
                     }}>send number</button>
-                <input id="inpute" className="btn btn-secondary" style={{textAlign:"-webkit-center"}} type="number" name="choosen_number" placeholder={"insert anumber"}/>
+                <input id="inpute" className="btn btn-secondary" style={{textAlign:"-webkit-center"}} type="number" name="choosen_number" placeholder={"insert anumber"}/> */}
                 
                 </div>
             </div>
