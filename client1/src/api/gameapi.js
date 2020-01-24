@@ -2,9 +2,9 @@
  import fecher from './fecher';
 
 
- function getplayers(playerid) {
+ function getplayers(playername) {
      return new Promise((resolve => {
-         fecher.get(`/users/${playerid}`)
+         fecher.get(`/users/${playername}`)
              .then(response => resolve(response.data))
      }))
 

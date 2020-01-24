@@ -1,13 +1,16 @@
 import React from 'react';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import GameHistory from '../history'
-import {sendgameDetails,sendgamenumbers} from '../api/gameapi' 
+import {sendgameDetails,sendgamenumbers,getplayers} from '../api/gameapi' 
 class Game extends  React.Component{
     constructor(props){
         super(props);
+        console.log(this.props)
         this.state = {
+            username:this.props.name,
             userid:0,
             gameid:0,
+            user:[],
             guessed_numbers:[],
             current_number:0,
             min_number:0,
@@ -16,14 +19,22 @@ class Game extends  React.Component{
             choosen_number:0,
             newgame:true
         };
+        console.log(this.state)
     }
     componentDidMount(){
-        this.setState({
-            min_number:parseInt(prompt(`pls insert min number`)),
-            max_number:parseInt(prompt(`pls inserts max number`)),
-            userid:this.state.userid+1,
-            gameid:this.state.gameid+1
-    },()=>this.guessTheNumber());
+        getplayers(this.state.username)
+        .then(user=>{
+            this.setState({
+                user:user
+            },()=>{console.log(this.state.user);
+                this.setState({
+                    min_number:parseInt(prompt(`pls insert min number`)),
+                    max_number:parseInt(prompt(`pls inserts max number`)),
+                    userid:this.state.user[0]["id"],
+                    gameid:this.state.user[0]["gameid"]
+            },()=>this.guessTheNumber());
+            })
+        })
     }
 
     handleData({target:{name,value}}){
@@ -33,7 +44,7 @@ class Game extends  React.Component{
     }
     sendcurrentgamedetails(){
             sendgamenumbers({gameid:this.state.gameid,number:this.state.current_number})
-             sendgameDetails({userid:this.state.userid,
+             sendgameDetails({username:this.state.userid,
                 minnumber:this.state.min_number,
                  maxnumber:this.state.max_number,
             choosennumber:this.state.choosen_number})
@@ -95,7 +106,7 @@ class Game extends  React.Component{
                 
                 </div>
             </div>
-    :<GameHistory userid={this.state.userid} gameid={this.state.gameid}/>}
+    :<GameHistory username={this.state.username} gameid={this.state.gameid}/>}
             </>
         )
     }
