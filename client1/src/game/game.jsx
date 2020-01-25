@@ -44,7 +44,7 @@ class Game extends  React.Component{
     }
     sendcurrentgamedetails(){
             sendgamenumbers({gameid:this.state.gameid,number:this.state.current_number})
-             sendgameDetails({username:this.state.userid,
+             sendgameDetails({userid:this.state.userid,
                 minnumber:this.state.min_number,
                  maxnumber:this.state.max_number,
             choosennumber:this.state.choosen_number})
